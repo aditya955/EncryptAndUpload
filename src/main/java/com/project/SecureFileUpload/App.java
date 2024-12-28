@@ -6,11 +6,8 @@ import javax.crypto.SecretKey;
 
 import com.project.SecureFileUpload.EncryptionAlgorighms.Aes;
 import com.project.SecureFileUpload.EncryptionAlgorighms.Ecc;
+import com.project.SecureFileUpload.Upload.GoogleDrive;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
@@ -24,9 +21,15 @@ public class App
         // System.out.println("Encrypted: " + encrypted);
         // System.out.println("decrypted: " + decrypted);
 
-        String decrypted = Aes.decrypt("ROeYQQIf3mpWT9Ki13kzEQ==", Aes.stringToSecretKey("mFzDb36tnd3stZjULwEiQcG49FuWqbcrO/UN5oaKJ1E="), "text");
-        System.out.println("Decrypted text: " + decrypted);
+        // String decrypted = Aes.decrypt("ROeYQQIf3mpWT9Ki13kzEQ==", Aes.stringToSecretKey("mFzDb36tnd3stZjULwEiQcG49FuWqbcrO/UN5oaKJ1E="), "text");
+        // System.out.println("Decrypted text: " + decrypted);
         // String encrypted = Aes.encrypt("Hello World", Aes.stringToSecretKey("mFzDb36tnd3stZjULwEiQcG49FuWqbcrO/UN5oaKJ1E="), "text");
-        // System.out.println("Encrypted text: " + encrypted);0
+        // System.out.println("Encrypted text: " + encrypted);
+
+        GoogleDrive uploadToGDrive = new GoogleDrive();
+        // String fileToUpload = "/home/aditya/Pictures/arch_logo.png";
+        // String uploadId = uploadToGDrive.upload(fileToUpload);
+        // System.out.println("File ID: " + uploadId);
+        System.out.println(uploadToGDrive.getAllFiles());
     }
 }
