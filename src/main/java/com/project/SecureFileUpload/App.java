@@ -26,10 +26,13 @@ public class App
         // String encrypted = Aes.encrypt("Hello World", Aes.stringToSecretKey("mFzDb36tnd3stZjULwEiQcG49FuWqbcrO/UN5oaKJ1E="), "text");
         // System.out.println("Encrypted text: " + encrypted);
 
-        GoogleDrive uploadToGDrive = new GoogleDrive();
+        GoogleDrive uploadToGDrive = GoogleDrive.createWithDefaultTransport();
         // String fileToUpload = "/home/aditya/Pictures/arch_logo.png";
         // String uploadId = uploadToGDrive.upload(fileToUpload);
         // System.out.println("File ID: " + uploadId);
         System.out.println(uploadToGDrive.getAllFiles());
+        System.out.println(uploadToGDrive.upload("/home/aditya/Pictures/arch_logo.png"));
+        System.out.println(uploadToGDrive.getAllFiles());
+        uploadToGDrive.download("1LV2m6oIkDU8PUVsLVeA2eWi5xKkdJYUP", "/tmp/arch_logo.png");
     }
 }
