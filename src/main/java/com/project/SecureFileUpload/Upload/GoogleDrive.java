@@ -3,13 +3,15 @@ package com.project.SecureFileUpload.Upload;
 import java.util.List;
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.io.OutputStream;
 import java.util.Collections;
+import java.lang.reflect.Field;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.FileNotFoundException;
 import java.io.ByteArrayOutputStream;
-
+import com.project.SecureFileUpload.Config;
 import com.google.api.services.drive.Drive;
 import java.security.GeneralSecurityException;
 import com.google.api.client.http.FileContent;
@@ -33,15 +35,44 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
  * Wrapper class for performing GDrive related tasks
  */
 public class GoogleDrive implements IUpload {
-    private static final String APPLICATION_NAME = "Upload to cloud";
+    private static final String APPLICATION_NAME = Config.getStr("applicationName");
 
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    private static final String TOKENS_DIRECTORY_PATH = "/tmp/tokens";
+    private static final String TOKENS_DIRECTORY_PATH = Config.getStr("tokensDirectoryPath");
 
-    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
+    private static final List<String> SCOPES = getDriveScopes();
 
-    private static final String CREDENTIALS_FILE_PATH = "credentials.json";
+    private static List<String> getDriveScopes() {
+        // Retrieve list of scope strings from configuration
+        Object scopes = Config.getList("driveScopes");
+        
+        if (scopes instanceof List) {
+            List<String> list = new ArrayList<>();
+            
+            for (Object element : (List<?>) scopes) {
+                if (element instanceof String) {
+                    String scope = (String) element;
+                    
+                    try {
+                        Field field = DriveScopes.class.getField(scope);
+                        String validScope = (String) field.get(null);
+
+                        list.add(validScope);
+                    } catch (IllegalAccessException | NoSuchFieldException e) {
+                        // TODO: Add check for valid URLs
+                        list.add(scope);
+                    }
+                }
+            }
+            
+            return list;
+        }
+        
+        return Collections.emptyList();
+    }    
+
+    private static final String CREDENTIALS_FILE_PATH = Config.getStr("credentialsFilePath");
 
     private final GoogleDriveIO driveIO;
 
@@ -95,7 +126,7 @@ public class GoogleDrive implements IUpload {
             downloadedFile.writeTo(outputStream);
             return true;
         } catch (IOException e) {
-            System.out.println("[-] Unable to write to file '" + fileName + "': " + e.getMessage());
+            System.out.println("[-] Unable to download/write to file '" + fileName + "': " + e.getMessage());
             return false;
         }
     }
@@ -111,7 +142,7 @@ public class GoogleDrive implements IUpload {
                     .setApplicationName(APPLICATION_NAME)
                     .build();
         } catch (IOException e) {
-            System.out.println("[-] Unable to initialize service " + e.getMessage());
+            System.out.println("[-] Unable to initialize service: " + e.getMessage());
             throw e;
         }
     }
@@ -137,7 +168,7 @@ public class GoogleDrive implements IUpload {
      * @return Authorized Credential object
      * @throws IOException If credential.json file can't be found
      */
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException {
         // Load client secrets.
 
@@ -155,7 +186,7 @@ public class GoogleDrive implements IUpload {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(Config.getInt("googleDriveAuthenticationPort")).build();
 
         try {
             Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
@@ -163,7 +194,7 @@ public class GoogleDrive implements IUpload {
             // returns an authorized Credential object.
             return credential;
         } catch (IOException e) {
-            throw new IOException("[-] Failed to authorize user" + e.getMessage());
+            throw new IOException("[-] Failed to authorize user: " + e.getMessage());
         }
     }
 }
@@ -210,7 +241,7 @@ class GoogleDriveIO {
                     .execute();
             files = result.getFiles();
         } catch (IOException e) {
-            System.out.println("[-] Unable to read files " + e.getMessage());
+            System.out.println("[-] Unable to upload/read files " + e.getMessage());
         }
 
         return files;
@@ -260,7 +291,7 @@ class GoogleDriveUpload {
         } catch (GoogleJsonResponseException e) {
             System.err.println("[-] Unable to upload file: " + e.getDetails());
         } catch (IOException e) {
-            System.out.println("[-] Unable to read file: " + e.getMessage());
+            System.out.println("[-] Unable to upload/read file: " + e.getMessage());
         }
 
         return null;
@@ -297,7 +328,7 @@ class GoogleDriveDownload {
             System.err.println("[-] Unable to move file: " + e.getDetails());
         } 
         catch (IOException e) {
-            System.err.println("[-] Unable to write file: " + e.getMessage());
+            System.err.println("[-] Unable to download/write to file: " + e.getMessage());
         }
         return null;
     }
