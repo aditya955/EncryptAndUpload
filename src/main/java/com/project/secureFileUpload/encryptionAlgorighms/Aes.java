@@ -1,4 +1,4 @@
-package com.project.SecureFileUpload.EncryptionAlgorighms;
+package com.project.secureFileUpload.encryptionAlgorighms;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;

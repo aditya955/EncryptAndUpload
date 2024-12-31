@@ -1,12 +1,12 @@
-package com.project.SecureFileUpload;
+package com.project.secureFileUpload;
 
-import java.util.Arrays;
+// import java.util.Arrays;
 
-import javax.crypto.SecretKey;
+// import javax.crypto.SecretKey;
 
-import com.project.SecureFileUpload.EncryptionAlgorighms.Aes;
-import com.project.SecureFileUpload.EncryptionAlgorighms.Ecc;
-import com.project.SecureFileUpload.Upload.GoogleDrive;
+// import com.project.secureFileUpload.encryptionAlgorighms.Aes;
+// import com.project.secureFileUpload.encryptionAlgorighms.Ecc;
+import com.project.secureFileUpload.upload.GoogleDrive;
 
 public class App 
 {

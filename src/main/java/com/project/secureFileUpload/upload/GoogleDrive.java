@@ -1,4 +1,4 @@
-package com.project.SecureFileUpload.Upload;
+package com.project.secureFileUpload.upload;
 
 import java.util.List;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.FileNotFoundException;
 import java.io.ByteArrayOutputStream;
-import com.project.SecureFileUpload.Config;
+
 import com.google.api.services.drive.Drive;
 import java.security.GeneralSecurityException;
 import com.google.api.client.http.FileContent;
@@ -21,6 +21,7 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.drive.model.FileList;
+import com.project.secureFileUpload.Config;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;

@@ -1,4 +1,4 @@
-package com.project.SecureFileUpload.Upload;
+package com.project.secureFileUpload.upload;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.project.SecureFileUpload;
+package com.project.secureFileUpload;
 
 import org.yaml.snakeyaml.Yaml;
 

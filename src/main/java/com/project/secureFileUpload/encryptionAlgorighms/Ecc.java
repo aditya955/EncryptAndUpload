@@ -1,4 +1,4 @@
-package com.project.SecureFileUpload.EncryptionAlgorighms;
+package com.project.secureFileUpload.encryptionAlgorighms;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
