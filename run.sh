@@ -14,7 +14,7 @@ fi
 
 echo "[INFO] Running the project"
 cd target/
-java -jar SecureFileUpload-1.0.0.jar
+java -jar secureFileUpload-1.0.0.jar
 
 echo -e "\n[INFO] Project execution completed"
 cd ..

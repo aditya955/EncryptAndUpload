@@ -61,6 +61,7 @@ public class Config {
         return config.containsKey(key);
     }
 
+    @SuppressWarnings("unchecked")
     public static Object getNested(String key) {
         String[] keys = key.split("\\.");
         Map<String, Object> current = config;

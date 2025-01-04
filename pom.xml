@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.project.SecureFileUpload</groupId>
-    <artifactId>SecureFileUpload</artifactId>
+    <groupId>com.project.secureFileUpload</groupId>
+    <artifactId>secureFileUpload</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0</version>
     
-    <name>SecureFileUpload</name>
+    <name>secureFileUpload</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
@@ -84,7 +84,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.project.SecureFileUpload.App</mainClass>  <!-- Your Main class -->
+                            <mainClass>com.project.secureFileUpload.App</mainClass>  <!-- Your Main class -->
                         </manifest>
                     </archive>
                 </configuration>
