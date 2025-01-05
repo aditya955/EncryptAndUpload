@@ -43,16 +43,16 @@ public class Aes implements IEncryption {
     }
     
     @Override
-    public String encryptStr(SecretKey key) {
+    public String encryptStr(SecretKey key, String strToEncrypt) {
         return null;
     }
 
     @Override
-    public String decryptStr(SecretKey key) {
+    public String decryptStr(SecretKey key, String strToDecrypt) {
         return null;
     }
 
-    private boolean process(SecretKey key, String inputFile, String outputFile, int mode) {
+    private boolean processFile(SecretKey key, String inputFile, String outputFile, int mode) {
         boolean status = false;
         try(FileInputStream fis = new FileInputStream(inputFile);
             FileOutputStream fos = new FileOutputStream(outputFile)) {
@@ -83,12 +83,12 @@ public class Aes implements IEncryption {
     
     @Override
     public boolean encryptFile(SecretKey key, String inputFile, String outputFile) {
-        return process(key, inputFile, outputFile, Cipher.ENCRYPT_MODE);
+        return processFile(key, inputFile, outputFile, Cipher.ENCRYPT_MODE);
     }
 
     @Override
     public boolean decryptFile(SecretKey key, String inputFile, String outputFile) {
-        return process(key, inputFile, outputFile, Cipher.DECRYPT_MODE);
+        return processFile(key, inputFile, outputFile, Cipher.DECRYPT_MODE);
     }
 
     @Override

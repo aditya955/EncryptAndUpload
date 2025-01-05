@@ -3,8 +3,8 @@ package com.project.secureFileUpload.encryptionAlgorighms;
 import javax.crypto.SecretKey;
 
 public interface IEncryption {
-    public String encryptStr(SecretKey key);
-    public String decryptStr(SecretKey key);
+    public String encryptStr(SecretKey key, String strToEncrypt);
+    public String decryptStr(SecretKey key, String strToDecrypt);
 
     public boolean encryptFile(SecretKey key, String inputFile, String outputFile);
     public boolean decryptFile(SecretKey key, String inputFile, String outputFile);
