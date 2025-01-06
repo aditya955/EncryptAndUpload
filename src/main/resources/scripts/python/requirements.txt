@@ -1,0 +1,3 @@
+# Dependencies for ECC
+pycryptodomex==3.20.0
+tinyec==0.4.0
