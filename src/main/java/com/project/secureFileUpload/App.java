@@ -104,9 +104,9 @@ public class App
         }
 
         // String algorithm = cmd.getOptionValue("algorithm");
-        String encryptdFileName = cmd.getOptionValue("outputEncryptedFile");
-        String decryptedFileName = cmd.getOptionValue("outputDecryptedFile");
-        String downloadedFileName = cmd.getOptionValue("outputDownloadFile");
+        String encryptdFileName = cmd.getOptionValue("encryptedFile");
+        String decryptedFileName = cmd.getOptionValue("decryptedFile");
+        String downloadedFileName = cmd.getOptionValue("downloadedFile");
         String upload = cmd.getOptionValue("upload");
         String download = cmd.getOptionValue("download");
         String encrypt = cmd.getOptionValue("encrypt");
@@ -207,7 +207,7 @@ public class App
 
     private void printHelp(Options options) {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("java -jar <INPUT_FILE> <OUTPUT_FILE>", options);
+        formatter.printHelp("java -jar <arguments>", options);
     }
 
     private CommandLine parseArgument(Options options, String[] args) {

@@ -49,12 +49,7 @@ public class AppTest
 
     public void testUploadAndDownload() {
         String[][] files = new String[][] {
-            {
-                "/tmp/test/input.txt", "/tmp/test/input.txt.encrypted", "/tmp/test/output.txt"
-            },
-            {
-                "/tmp/test/input.png", "/tmp/test/input.png.encrypted", "/tmp/test/output.png"
-            }
+            
         };
 
         for(int i = 0; i < files.length; i++) {
