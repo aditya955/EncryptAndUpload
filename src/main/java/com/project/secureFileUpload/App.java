@@ -1,12 +1,13 @@
 package com.project.secureFileUpload;
 
+import java.util.Base64;
 import java.util.Scanner;
 
 import javax.crypto.SecretKey;
 
 import org.apache.commons.cli.*;
 
-import com.project.secureFileUpload.encryptionAlgorighms.Aes;
+import com.project.secureFileUpload.encryptionAlgorighms.CipherInstance;
 import com.project.secureFileUpload.encryptionAlgorighms.IEncryption;
 import com.project.secureFileUpload.upload.GoogleDrive;
 import com.project.secureFileUpload.upload.IUpload;
@@ -20,9 +21,9 @@ public class App
         app.process(args);
     }
 
-    private boolean encrypt(SecretKey key, String fileToEncrypt, String outputEncryptedFile) {
-        IEncryption e = Aes.getClassInstance();
-        return e.encryptFile(key, fileToEncrypt, outputEncryptedFile);
+    private boolean encrypt(String algorithm, String mode, SecretKey key, String fileToEncrypt, String outputEncryptedFile, byte[] combinedBytes) {
+        IEncryption e = CipherInstance.getClassInstance(algorithm, mode);
+        return e.encryptFile(key, fileToEncrypt, outputEncryptedFile, combinedBytes);
     }
 
     private String upload(String fileToUpload) {
@@ -34,18 +35,26 @@ public class App
         return drive.download(fileId, outputDecryptedFile);
     }
 
-    private boolean decrypt(SecretKey key, String outputEncryptedFile, String outputDecryptedFile) {
-        IEncryption e = Aes.getClassInstance();
-        return e.decryptFile(key, outputEncryptedFile, outputDecryptedFile);
+    private boolean decrypt(String algorithm, String mode, SecretKey key, String outputEncryptedFile, String outputDecryptedFile, byte[] combinedBytes) {
+        IEncryption e = CipherInstance.getClassInstance(algorithm, mode);
+        return e.decryptFile(key, outputEncryptedFile, outputDecryptedFile, combinedBytes);
     }
 
     private Options defineOptions() {
         // Create the command line parser
         Options options = new Options();
 
-        // Option algOption = new Option("a", "algorithm", true, "algorithm to use for encryption");
-        // algOption.setRequired(true);
-        // options.addOption(algOption);
+        Option algOption = new Option("a", "algorithm", true, "algorithm to use for encryption");
+        algOption.setRequired(true);
+        options.addOption(algOption);
+
+        Option mode = new Option("m", "mode", true, "mode of operatoin to use for encryption (without algorithm name)");
+        mode.setRequired(false);
+        options.addOption(mode);
+
+        Option combinedBytes = new Option("c", "combinedBytes", true, "Combined bytes (in case of decryption)");
+        combinedBytes.setRequired(false);
+        options.addOption(combinedBytes);
 
         Option help = new Option("h", "help", false, "print this help message");
         help.setRequired(false);
@@ -104,6 +113,9 @@ public class App
         }
 
         // String algorithm = cmd.getOptionValue("algorithm");
+        String algorithm = cmd.getOptionValue("algorithm");
+        String mode = cmd.getOptionValue("mode");
+        String combinedBytes = cmd.getOptionValue("combinedBytes");
         String encryptdFileName = cmd.getOptionValue("encryptedFile");
         String decryptedFileName = cmd.getOptionValue("decryptedFile");
         String downloadedFileName = cmd.getOptionValue("downloadedFile");
@@ -128,7 +140,7 @@ public class App
                 keySize = in.nextInt();
             }
 
-            SecretKey secretKey = Aes.getClassInstance().generateKey(keySize);
+            SecretKey secretKey = CipherInstance.getClassInstance(algorithm, mode).generateKey(keySize);
 
             String encryptedFileName = encrypt + ".encrypted";
 
@@ -136,7 +148,7 @@ public class App
                 encryptedFileName = encryptdFileName;
             }
 
-            boolean status = encrypt(secretKey, encrypt, encryptedFileName);
+            boolean status = encrypt(algorithm, mode, secretKey, encrypt, encryptedFileName, null);
 
             if(!status) {
                 System.out.println("[-] Error encrypting the file");
@@ -144,7 +156,7 @@ public class App
             }
 
             System.out.println("[+] File encrypted successfully");
-            System.out.println("Key: " + Aes.getClassInstance().getKeyStr(secretKey));
+            System.out.println("Key: " + CipherInstance.getClassInstance(algorithm, mode).getKeyStr(secretKey));
             System.out.println("Encrypted file: " + encryptedFileName + "\n");
         }
 
@@ -185,14 +197,15 @@ public class App
                 key = in.nextLine();
             }
 
-            SecretKey secretKey = Aes.getClassInstance().generateKey(key);
+            SecretKey secretKey = CipherInstance.getClassInstance(algorithm, mode).generateKey(key);
 
             String output = decrypt + ".decrypted";
             if(decryptedFileName != null) {
                 output = decryptedFileName;
             }
 
-            boolean status = decrypt(secretKey, decrypt, output);
+            byte[] decodedByte = combinedBytes != null ? Base64.getDecoder().decode(combinedBytes) : null;
+            boolean status = decrypt(algorithm, mode, secretKey, decrypt, output, decodedByte);
 
             if(!status) {
                 System.out.println("[-] Error decrypting the file");
