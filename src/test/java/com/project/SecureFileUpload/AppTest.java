@@ -2,7 +2,7 @@ package com.project.SecureFileUpload;
 
 import javax.crypto.SecretKey;
 
-import com.project.secureFileUpload.encryptionAlgorighms.Aes;
+import com.project.secureFileUpload.encryptionAlgorighms.CipherInstance;
 import com.project.secureFileUpload.encryptionAlgorighms.IEncryption;
 import com.project.secureFileUpload.upload.GoogleDrive;
 import com.project.secureFileUpload.upload.IUpload;
@@ -17,7 +17,7 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
-    static IEncryption e = Aes.getClassInstance();
+    static IEncryption e = CipherInstance.getClassInstance("aes", "");
     static SecretKey key = e.generateKey(256);
     static IUpload drive = GoogleDrive.createWithDefaultTransport();
     static String fileId;
@@ -76,7 +76,7 @@ public class AppTest
     }
 
     private static boolean encrypt(String fileToEncrypt, String outputEncryptedFile) {
-        return e.encryptFile(key, fileToEncrypt, outputEncryptedFile);
+        return e.encryptFile(key, fileToEncrypt, outputEncryptedFile, null);
     }
 
     private static boolean upload(String outputEncryptedFile) {
@@ -89,6 +89,6 @@ public class AppTest
     }
 
     private static boolean decrypt(String outputEncryptedFile, String outputDecryptedFile) {
-        return e.decryptFile(key, outputEncryptedFile, outputDecryptedFile);
+        return e.decryptFile(key, outputEncryptedFile, outputDecryptedFile, null);
     }
 }
