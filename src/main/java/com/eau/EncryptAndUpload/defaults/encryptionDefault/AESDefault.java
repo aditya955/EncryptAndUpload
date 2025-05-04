@@ -7,11 +7,11 @@ public class AESDefault extends EncryptionDefaults {
     }
     
     public static AESDefault getAes128Default() {
-        return new AESDefault("AES", "PBKDF2WithHmacSHA1", 128, 10000, 8, 16);
+        return new AESDefault("AES/GCM/NoPadding", "PBKDF2WithHmacSHA1", 128, 10000, 8, 16);
     }
 
     public static AESDefault getAes256Default() {
-        return new AESDefault("AES", "PBKDF2WithHmacSHA256", 256, 65536, 16, 16);
+        return new AESDefault("AES/GCM/NoPadding", "PBKDF2WithHmacSHA256", 256, 65536, 16, 16);
     }
 }
 
