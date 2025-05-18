@@ -1,8 +1,8 @@
 package com.eau.EncryptAndUpload.encrypt;
 
+import com.eau.EncryptAndUpload.builder.encryptor.EncryptorConfigBuilder;
 import com.eau.EncryptAndUpload.exceptions.DecryptException;
 import com.eau.EncryptAndUpload.exceptions.EncryptException;
-import com.eau.EncryptAndUpload.service.EncryptorConfigBuilder;
 
 public class AESEncryptor implements EncryptorStrategy {
     private GenericEncryptor genericEncryptor;

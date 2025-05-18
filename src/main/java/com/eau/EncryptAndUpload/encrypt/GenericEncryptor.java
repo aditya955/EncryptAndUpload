@@ -15,9 +15,9 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.eau.EncryptAndUpload.builder.encryptor.EncryptorConfigBuilder;
 import com.eau.EncryptAndUpload.exceptions.DecryptException;
 import com.eau.EncryptAndUpload.exceptions.EncryptException;
-import com.eau.EncryptAndUpload.service.EncryptorConfigBuilder;
 
 public class GenericEncryptor {
     private final SecureRandom random = new SecureRandom();

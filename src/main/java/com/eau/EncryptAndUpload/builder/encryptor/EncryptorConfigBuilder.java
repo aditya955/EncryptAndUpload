@@ -1,4 +1,4 @@
-package com.eau.EncryptAndUpload.service;
+package com.eau.EncryptAndUpload.builder.encryptor;
 
 import com.eau.EncryptAndUpload.defaults.encryptionDefault.EncryptionDefaults;
 import com.eau.EncryptAndUpload.encrypt.GenericEncryptor;
