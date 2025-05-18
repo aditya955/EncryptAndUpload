@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.eau.EncryptAndUpload.builder.uploader.UploaderServiceBuilder;
-import com.eau.EncryptAndUpload.config.uploadConfig.UploaderConfig;
-import com.eau.EncryptAndUpload.service.CloudProvider;
+import com.eau.EncryptAndUpload.config.upload.UploaderConfig;
+import com.eau.EncryptAndUpload.enums.CloudProvider;
 import com.eau.EncryptAndUpload.upload.CloudUploader;
 import com.eau.EncryptAndUpload.upload.gdrive.GoogleDriveKeys;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;

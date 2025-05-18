@@ -1,4 +1,4 @@
-package com.eau.EncryptAndUpload.defaults.encryptionDefault;
+package com.eau.EncryptAndUpload.presets.encrypt;
 
 public abstract class EncryptionDefaults {
     private final String algorithm;

@@ -1,6 +1,6 @@
 package com.eau.EncryptAndUpload.builder.uploader;
 
-import com.eau.EncryptAndUpload.config.uploadConfig.UploaderConfig;
+import com.eau.EncryptAndUpload.config.upload.UploaderConfig;
 import com.eau.EncryptAndUpload.exceptions.InvalidConfigException;
 import com.eau.EncryptAndUpload.exceptions.InvalidProviderException;
 import com.eau.EncryptAndUpload.upload.CloudUploader;

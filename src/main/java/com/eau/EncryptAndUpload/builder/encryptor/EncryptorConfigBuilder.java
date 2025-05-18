@@ -1,7 +1,7 @@
 package com.eau.EncryptAndUpload.builder.encryptor;
 
-import com.eau.EncryptAndUpload.defaults.encryptionDefault.EncryptionDefaults;
 import com.eau.EncryptAndUpload.encrypt.GenericEncryptor;
+import com.eau.EncryptAndUpload.presets.encrypt.EncryptionDefaults;
 
 public class EncryptorConfigBuilder {
     private String algorithm;

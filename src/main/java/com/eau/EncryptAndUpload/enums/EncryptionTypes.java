@@ -1,7 +1,7 @@
-package com.eau.EncryptAndUpload.service;
+package com.eau.EncryptAndUpload.enums;
 
-import com.eau.EncryptAndUpload.defaults.encryptionDefault.AESDefault;
-import com.eau.EncryptAndUpload.defaults.encryptionDefault.EncryptionDefaults;
+import com.eau.EncryptAndUpload.presets.encrypt.AESDefault;
+import com.eau.EncryptAndUpload.presets.encrypt.EncryptionDefaults;
 
 public enum EncryptionTypes {
     AES128(AESDefault.getAes128Default()),

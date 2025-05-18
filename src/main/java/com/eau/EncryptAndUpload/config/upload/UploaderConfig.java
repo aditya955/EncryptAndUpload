@@ -1,12 +1,12 @@
-package com.eau.EncryptAndUpload.config.uploadConfig;
+package com.eau.EncryptAndUpload.config.upload;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.eau.EncryptAndUpload.builder.uploader.UploaderBuilder;
+import com.eau.EncryptAndUpload.enums.CloudProvider;
 import com.eau.EncryptAndUpload.exceptions.InvalidConfigException;
 import com.eau.EncryptAndUpload.exceptions.InvalidProviderException;
-import com.eau.EncryptAndUpload.service.CloudProvider;
 import com.eau.EncryptAndUpload.upload.gdrive.GoogleDriveBuilder;
 
 public class UploaderConfig {

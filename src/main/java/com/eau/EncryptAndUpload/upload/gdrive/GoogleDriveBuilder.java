@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.eau.EncryptAndUpload.builder.uploader.UploaderBuilder;
-import com.eau.EncryptAndUpload.config.uploadConfig.UploaderConfig;
+import com.eau.EncryptAndUpload.config.upload.UploaderConfig;
 import com.eau.EncryptAndUpload.exceptions.InvalidConfigException;
 import com.eau.EncryptAndUpload.upload.CloudUploader;
 import com.google.api.client.auth.oauth2.Credential;

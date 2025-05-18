@@ -3,8 +3,8 @@ package com.eau.EncryptAndUpload.encryptTest;
 import org.junit.jupiter.api.Test;
 
 import com.eau.EncryptAndUpload.builder.encryptor.EncryptorConfigBuilder;
-import com.eau.EncryptAndUpload.defaults.encryptionDefault.AESDefault;
 import com.eau.EncryptAndUpload.encrypt.AESEncryptor;
+import com.eau.EncryptAndUpload.presets.encrypt.AESDefault;
 
 public class AesTest {
     @Test
