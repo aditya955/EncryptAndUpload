@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.eau.EncryptAndUpload.builder.ConfigBuilder;
 import com.eau.EncryptAndUpload.builder.uploader.UploaderServiceBuilder;
 import com.eau.EncryptAndUpload.config.upload.UploaderConfig;
 import com.eau.EncryptAndUpload.enums.CloudProvider;
@@ -20,8 +21,28 @@ import com.google.api.services.drive.model.File;
 
 public class GDriveUploadTest {
     // private final String uploadFilePath = "/tmp/fileToUpload.txt";
+
+    public void gDriveTestHelper(UploaderConfig config) {
+        // --------------- Uploader service ---------------
+        UploaderServiceBuilder uploaderBuilder = new UploaderServiceBuilder(config);
+
+        CloudUploader uploader = uploaderBuilder.build();
+
+        // --------------- Upload file ---------------
+        // uploader.upload(uploadFilePath);
+
+        // --------------- List Files ---------------
+        List<File> files = uploader.getAllFiles();
+
+        System.out.println("Sr No.\t\tFile Name\t\t\tFile ID");
+        for(int i = 0; i < files.size(); i++) {
+            File file = files.get(i);
+            System.out.println((i + 1) + "\t\t" + file.getName() + "\t\t\t" + file.getId());
+        }
+    }
+
     @Test
-    public void uploadTest() {
+    public void gDriveTestWithHardcodedConfig() {
         try {
             // --------------- Config ---------------
             UploaderConfig config = new UploaderConfig(CloudProvider.GOOGLE_DRIVE);
@@ -41,24 +62,20 @@ public class GDriveUploadTest {
 
             config.set(GoogleDriveKeys.TOKENS_DIRECTORY_PATH.getKey(), "local-config");
 
-            // --------------- Uploader service ---------------
-            UploaderServiceBuilder uploaderBuilder = new UploaderServiceBuilder(config);
-
-            CloudUploader uploader = uploaderBuilder.build();
-
-            // --------------- Upload file ---------------
-            // uploader.upload(uploadFilePath);
-
-            // --------------- List Files ---------------
-            List<File> files = uploader.getAllFiles();
-
-            System.out.println("Sr No.\t\tFile Name\t\t\tFile ID");
-            for(int i = 0; i < files.size(); i++) {
-                File file = files.get(i);
-                System.out.println((i + 1) + "\t\t" + file.getName() + "\t\t\t" + file.getId());
-            }
+            // Test gDrive
+            gDriveTestHelper(config);
         } catch (Exception e) {
             fail("Unable to upload to cloud: " + e);
+        }
+    }
+
+    @Test
+    public void gDriveTestWithJsonConfig() {
+        try {
+            UploaderConfig config = new ConfigBuilder("local-config/config.json").build();
+            gDriveTestHelper(config);
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }
