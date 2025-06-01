@@ -7,24 +7,30 @@ import java.io.ByteArrayOutputStream;
 import com.google.api.services.drive.Drive;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 
+/**
+ * Handles file download operations from Google Drive.
+ * <p>
+ * This class provides methods to download files from Google Drive using the Drive API.
+ * </p>
+ */
 public class GoogleDriveDownload {
     private final Drive service;
 
     /**
-     * 
-     * @param service
+     * Constructs a new {@code GoogleDriveDownload} with the specified Drive service.
+     *
+     * @param service the Google Drive API service
      */
     public GoogleDriveDownload(Drive service) {
         this.service = service;
     }
 
     /**
-     * Download a Document file in PDF format.
+     * Downloads a file from Google Drive as a byte array stream.
      *
-     * @param realFileId file ID of any workspace document format file.
-     * @return byte array stream if successful, {@code null} otherwise.
-     * @throws IOException if service account credentials file not found.
-    */
+     * @param fileId the ID of the file to download
+     * @return a {@link ByteArrayOutputStream} containing the file data, or {@code null} on failure
+     */
     public ByteArrayOutputStream downloadFile(String fileId) {
         try {
             OutputStream outputStream = new ByteArrayOutputStream();

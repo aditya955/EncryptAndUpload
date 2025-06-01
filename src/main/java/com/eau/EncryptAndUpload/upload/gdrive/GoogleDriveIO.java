@@ -10,7 +10,11 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 /**
- * Handle all IO operations for Google drive including file upload, download, listing, etc
+ * Handles all I/O operations for Google Drive, including file upload, download, and listing.
+ * <p>
+ * This class acts as a facade for Google Drive API operations, delegating upload and download
+ * functionality to {@link GoogleDriveUpload} and {@link GoogleDriveDownload} helpers.
+ * </p>
  */
 public class GoogleDriveIO {
     private final Drive service;
@@ -18,8 +22,9 @@ public class GoogleDriveIO {
     private final GoogleDriveDownload driveDownloadObj;
 
     /**
-     * 
-     * @param service
+     * Constructs a new {@code GoogleDriveIO} with the specified Google Drive service instance.
+     *
+     * @param service the Google Drive API service
      */
     public GoogleDriveIO(Drive service) {
         this.service = service;
@@ -28,19 +33,19 @@ public class GoogleDriveIO {
     }
 
     /**
-     * Upload the file at specified path to google drive
-     * 
-     * @param absoluteFilePath Absolute path of file to be uploaded
-     * @return ID of the uploaded file
+     * Uploads the local file at the specified path to Google Drive.
+     *
+     * @param absoluteFilePath the absolute path of the file to be uploaded
+     * @return the ID of the uploaded file
      */
     protected String upload(String absoluteFilePath) {
         return driveUploadObj.uploadMultiPart(absoluteFilePath);
     }
 
-
     /**
-     * 
-     * @return List of File fetched from drive
+     * Retrieves a list of all files from Google Drive.
+     *
+     * @return a list of files fetched from Google Drive
      */
     protected List<File> getAllFiles() {
         FileList result;
@@ -58,9 +63,10 @@ public class GoogleDriveIO {
     }
 
     /**
-     * 
-     * @param fileId ID of file to download
-     * @return
+     * Downloads a file from Google Drive as a byte array stream.
+     *
+     * @param fileId the ID of the file to download
+     * @return a {@link ByteArrayOutputStream} containing the file data, or {@code null} on failure
      */
     protected ByteArrayOutputStream download(String fileId) {
         return driveDownloadObj.downloadFile(fileId);

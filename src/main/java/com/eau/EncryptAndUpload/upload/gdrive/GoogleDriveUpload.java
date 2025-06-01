@@ -8,23 +8,28 @@ import com.google.api.services.drive.model.File;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 
 /**
-* Core logic for uploading file (multipart, resumable upload, ...)
-*/
+ * Core logic for uploading files to Google Drive (multipart, resumable upload, etc.).
+ * <p>
+ * This class provides methods to upload files to Google Drive using the Drive API.
+ * </p>
+ */
 public class GoogleDriveUpload {
    private final Drive service;
 
    /**
-    * 
-    * @param service
+    * Constructs a new {@code GoogleDriveUpload} with the specified Drive service.
+    *
+    * @param service the Google Drive API service
     */
    public GoogleDriveUpload(Drive service) {
        this.service = service;
    }
 
    /**
-    * Perform multipart data (upload metadata and data in the same request)
-    * @param absoluteFilePath Absolute path of file to be uploaded
-    * @return ID of uploaded file
+    * Performs a multipart upload (metadata and data in the same request) to Google Drive.
+    *
+    * @param absoluteFilePath the absolute path of the file to be uploaded
+    * @return the ID of the uploaded file, or {@code null} if the upload fails
     */
    protected String uploadMultiPart(String absoluteFilePath) {
        File fileMetadata = new File();
