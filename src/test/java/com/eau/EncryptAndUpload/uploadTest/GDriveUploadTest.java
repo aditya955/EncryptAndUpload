@@ -12,6 +12,8 @@ import com.eau.EncryptAndUpload.config.upload.UploaderConfig;
 import com.eau.EncryptAndUpload.enums.CloudProvider;
 import com.eau.EncryptAndUpload.upload.CloudUploader;
 import com.eau.EncryptAndUpload.upload.gdrive.GoogleDriveKeys;
+import com.eau.EncryptAndUpload.utils.config.AppConfig;
+import com.eau.EncryptAndUpload.utils.config.ConfigLoader;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
@@ -20,6 +22,36 @@ import com.google.api.services.drive.model.File;
 
 public class GDriveUploadTest {
     // private final String uploadFilePath = "/tmp/fileToUpload.txt";
+
+    private void testUpload(UploaderConfig config) {
+        try {
+            // --------------- Uploader service ---------------
+            System.out.println(config);
+            UploaderServiceBuilder uploaderBuilder = new UploaderServiceBuilder(config);
+
+            CloudUploader uploader = uploaderBuilder.build();
+
+            if(uploader == null) {
+                fail("Unable to create CloudUploader");
+                return;
+            }
+
+            // --------------- Upload file ---------------
+            // uploader.upload(uploadFilePath);
+
+            // --------------- List Files ---------------
+            List<File> files = uploader.getAllFiles();
+
+            System.out.println("Sr No.\t\tFile Name\t\t\tFile ID");
+            for(int i = 0; i < files.size(); i++) {
+                File file = files.get(i);
+                System.out.println((i + 1) + "\t\t" + file.getName() + "\t\t\t" + file.getId());
+            }
+        } catch (Exception e) {
+            fail("Unable to list files: " + e);
+        }
+    }
+
     @Test
     public void uploadTest() {
         try {
@@ -41,24 +73,28 @@ public class GDriveUploadTest {
 
             config.set(GoogleDriveKeys.TOKENS_DIRECTORY_PATH.getKey(), "local-config");
 
-            // --------------- Uploader service ---------------
-            UploaderServiceBuilder uploaderBuilder = new UploaderServiceBuilder(config);
-
-            CloudUploader uploader = uploaderBuilder.build();
-
-            // --------------- Upload file ---------------
-            // uploader.upload(uploadFilePath);
-
-            // --------------- List Files ---------------
-            List<File> files = uploader.getAllFiles();
-
-            System.out.println("Sr No.\t\tFile Name\t\t\tFile ID");
-            for(int i = 0; i < files.size(); i++) {
-                File file = files.get(i);
-                System.out.println((i + 1) + "\t\t" + file.getName() + "\t\t\t" + file.getId());
-            }
+            this.testUpload(config);
         } catch (Exception e) {
             fail("Unable to upload to cloud: " + e);
+        }
+    }
+
+    @Test
+    public void testConfigFileForUpload() {
+        try {
+            AppConfig config = ConfigLoader.getPropertiesConfig("local-config/config.properties");
+            UploaderConfig uploaderConfig = config.getUploaderConfig();
+
+            NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            uploaderConfig.set(GoogleDriveKeys.HTTP_TRANSPORT.getKey(), HTTP_TRANSPORT);
+
+            uploaderConfig.set(GoogleDriveKeys.JSON_FACTORY.getKey(), GsonFactory.getDefaultInstance());
+
+            uploaderConfig.set(GoogleDriveKeys.SCOPES.getKey(), Arrays.asList(DriveScopes.DRIVE_METADATA_READONLY, DriveScopes.DRIVE_FILE, DriveScopes.DRIVE));
+
+            this.testUpload(uploaderConfig);
+        } catch (Exception e) {
+            fail("Unable to load from properties file: " + e);
         }
     }
 }

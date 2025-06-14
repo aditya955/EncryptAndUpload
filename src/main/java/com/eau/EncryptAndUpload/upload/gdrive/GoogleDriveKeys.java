@@ -48,7 +48,6 @@ public enum GoogleDriveKeys {
      */
     TOKENS_DIRECTORY_PATH("tokensDirPath", String.class);
 
-    private final static String keyPrefix = "googleDrive-";
     private final String key;
     private final Class<?> type;
     private Class<?> subType;
@@ -60,7 +59,7 @@ public enum GoogleDriveKeys {
      * @param type the expected value type
      */
     GoogleDriveKeys(String key, Class<?> type) { 
-        this.key = keyPrefix + key;
+        this.key = key;
         this.type = type;
         this.subType = null;
     }
@@ -78,7 +77,7 @@ public enum GoogleDriveKeys {
     }
 
     /**
-     * Returns the full configuration key (with prefix {@value #keyPrefix}).
+     * Returns the full configuration key.
      *
      * @return the configuration key
      */

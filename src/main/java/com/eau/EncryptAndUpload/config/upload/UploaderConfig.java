@@ -75,6 +75,14 @@ public class UploaderConfig {
     public <T> T get(String key, Class<T> type) {
         Object value = config.get(key);
 
+        try {
+            if(type == Integer.class) {
+                value = Integer.parseInt(value.toString());
+            }
+        } catch (Exception e) {
+            throw new ClassCastException("Value for key '" + key + "' is not of type " + type.getSimpleName());
+        }
+
         if (!type.isInstance(value)) {
             throw new ClassCastException("Value for key '" + key + "' is not of type " + type.getSimpleName());
         }
