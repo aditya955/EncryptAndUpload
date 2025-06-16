@@ -26,7 +26,6 @@ public class GDriveUploadTest {
     private void testUpload(UploaderConfig config) {
         try {
             // --------------- Uploader service ---------------
-            System.out.println(config);
             UploaderServiceBuilder uploaderBuilder = new UploaderServiceBuilder(config);
 
             CloudUploader uploader = uploaderBuilder.build();
